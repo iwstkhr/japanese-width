@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toFullWidth = exports.toHalfWidth = exports.symbolMapHalfToFull = exports.symbolMapFullToHalf = exports.punctuationMarkMapHalfToFull = exports.punctuationMarkMapFullToHalf = exports.kanaMapHalfToFull = exports.kanaMapFullToHalf = void 0;
-var tslib_1 = require("tslib");
 /** Kana Map whose keys are full-width  */
 exports.kanaMapFullToHalf = new Map([
     ['ガ', 'ｶﾞ'],
@@ -89,8 +88,8 @@ exports.kanaMapFullToHalf = new Map([
     ['ョ', 'ｮ'],
 ]);
 /** Kana Map whose keys are full-width  */
-exports.kanaMapHalfToFull = new Map(Array.from(exports.kanaMapFullToHalf.entries()).map(function (entry) {
-    var _a = tslib_1.__read(entry, 2), key = _a[0], value = _a[1];
+exports.kanaMapHalfToFull = new Map(Array.from(exports.kanaMapFullToHalf.entries()).map((entry) => {
+    const [key, value] = entry;
     return [value, key];
 }));
 /** Punctuation mark Map whose keys are full-width */
@@ -103,8 +102,8 @@ exports.punctuationMarkMapFullToHalf = new Map([
     ['・', '･'],
 ]);
 /** Punctuation mark Map whose keys are half-width */
-exports.punctuationMarkMapHalfToFull = new Map(Array.from(exports.punctuationMarkMapFullToHalf.entries()).map(function (entry) {
-    var _a = tslib_1.__read(entry, 2), key = _a[0], value = _a[1];
+exports.punctuationMarkMapHalfToFull = new Map(Array.from(exports.punctuationMarkMapFullToHalf.entries()).map((entry) => {
+    const [key, value] = entry;
     return [value, key];
 }));
 /** Symbol Map whose keys are full-width */
@@ -131,7 +130,7 @@ exports.symbolMapFullToHalf = new Map([
     ['｜', '|'],
     ['；', ';'],
     ['：', ':'],
-    ['＇', ";"],
+    ['＇', ';'],
     ['＂', '"'],
     ['＜', '<'],
     ['＞', '>'],
@@ -139,8 +138,8 @@ exports.symbolMapFullToHalf = new Map([
     ['　', ' '],
 ]);
 /** Symbol Map whose keys are half-width */
-exports.symbolMapHalfToFull = new Map(Array.from(exports.symbolMapFullToHalf.entries()).map(function (entry) {
-    var _a = tslib_1.__read(entry, 2), key = _a[0], value = _a[1];
+exports.symbolMapHalfToFull = new Map(Array.from(exports.symbolMapFullToHalf.entries()).map((entry) => {
+    const [key, value] = entry;
     return [value, key];
 }));
 /**
@@ -148,8 +147,8 @@ exports.symbolMapHalfToFull = new Map(Array.from(exports.symbolMapFullToHalf.ent
  *
  * @param src
  */
-var toHalfWidth = function (src) {
-    var result = toHalfWidthAlphaNumeric(src);
+const toHalfWidth = (src) => {
+    let result = toHalfWidthAlphaNumeric(src);
     result = toHalfWidthKana(result);
     result = toHalfWidthPunctuationMark(result);
     result = toHalfWidthSymbol(result);
@@ -161,8 +160,8 @@ exports.toHalfWidth = toHalfWidth;
  *
  * @param src
  */
-var toFullWidth = function (src) {
-    var result = toFullWidthAlphaNumeric(src);
+const toFullWidth = (src) => {
+    let result = toFullWidthAlphaNumeric(src);
     result = toFullWidthKana(result);
     result = toFullWidthPunctuationMark(result);
     result = toFullWidthSymbol(result);
@@ -174,8 +173,8 @@ exports.toFullWidth = toFullWidth;
  *
  * @private
  */
-var toHalfWidthAlphaNumeric = function (src) {
-    return src.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) { return String.fromCharCode(s.charCodeAt(0) - 0xFEE0); });
+const toHalfWidthAlphaNumeric = (src) => {
+    return src.replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0));
 };
 /**
  * Convert half-width alphanumeric characters to full-width ones.
@@ -183,8 +182,8 @@ var toHalfWidthAlphaNumeric = function (src) {
  * @param src
  * @private
  */
-var toFullWidthAlphaNumeric = function (src) {
-    return src.replace(/[A-Za-z0-9]/g, function (s) { return String.fromCharCode(s.charCodeAt(0) + 0xFEE0); });
+const toFullWidthAlphaNumeric = (src) => {
+    return src.replace(/[A-Za-z0-9]/g, (s) => String.fromCharCode(s.charCodeAt(0) + 0xfee0));
 };
 /**
  * Convert full-width kana characters to half-width ones.
@@ -192,9 +191,9 @@ var toFullWidthAlphaNumeric = function (src) {
  * @param src
  * @private
  */
-var toHalfWidthKana = function (src) {
-    var keys = Array.from(exports.kanaMapFullToHalf.keys()).join('|');
-    return src.replace(new RegExp("(".concat(keys, ")"), 'g'), function (s) { return exports.kanaMapFullToHalf.get(s) || ''; });
+const toHalfWidthKana = (src) => {
+    const keys = Array.from(exports.kanaMapFullToHalf.keys()).join('|');
+    return src.replace(new RegExp(`(${keys})`, 'g'), (s) => exports.kanaMapFullToHalf.get(s) || '');
 };
 /**
  * Convert half-width kana characters to full-width ones.
@@ -202,9 +201,9 @@ var toHalfWidthKana = function (src) {
  * @param src
  * @private
  */
-var toFullWidthKana = function (src) {
-    var keys = Array.from(exports.kanaMapHalfToFull.keys()).join('|');
-    return src.replace(new RegExp("(".concat(keys, ")"), 'g'), function (s) { return exports.kanaMapHalfToFull.get(s) || ''; });
+const toFullWidthKana = (src) => {
+    const keys = Array.from(exports.kanaMapHalfToFull.keys()).join('|');
+    return src.replace(new RegExp(`(${keys})`, 'g'), (s) => exports.kanaMapHalfToFull.get(s) || '');
 };
 /**
  * Convert full-width punctuation mark to half-width ones.
@@ -212,9 +211,9 @@ var toFullWidthKana = function (src) {
  * @param src
  * @private
  */
-var toHalfWidthPunctuationMark = function (src) {
-    var keys = Array.from(exports.punctuationMarkMapFullToHalf.keys()).join('|');
-    return src.replace(new RegExp("(".concat(keys, ")"), 'g'), function (s) { return exports.punctuationMarkMapFullToHalf.get(s) || ''; });
+const toHalfWidthPunctuationMark = (src) => {
+    const keys = Array.from(exports.punctuationMarkMapFullToHalf.keys()).join('|');
+    return src.replace(new RegExp(`(${keys})`, 'g'), (s) => exports.punctuationMarkMapFullToHalf.get(s) || '');
 };
 /**
  * Convert half-width punctuation mark to full-width ones.
@@ -222,9 +221,9 @@ var toHalfWidthPunctuationMark = function (src) {
  * @param src
  * @private
  */
-var toFullWidthPunctuationMark = function (src) {
-    var keys = Array.from(exports.punctuationMarkMapHalfToFull.keys()).join('|');
-    return src.replace(new RegExp("(".concat(keys, ")"), 'g'), function (s) { return exports.punctuationMarkMapHalfToFull.get(s) || ''; });
+const toFullWidthPunctuationMark = (src) => {
+    const keys = Array.from(exports.punctuationMarkMapHalfToFull.keys()).join('|');
+    return src.replace(new RegExp(`(${keys})`, 'g'), (s) => exports.punctuationMarkMapHalfToFull.get(s) || '');
 };
 /**
  * Convert full-width symbol to half-width ones.
@@ -232,9 +231,9 @@ var toFullWidthPunctuationMark = function (src) {
  * @param src
  * @private
  */
-var toHalfWidthSymbol = function (src) {
-    var keys = Array.from(exports.symbolMapFullToHalf.keys()).join('|');
-    return src.replace(new RegExp("(".concat(keys, ")"), 'g'), function (s) { return exports.symbolMapFullToHalf.get(s) || ''; });
+const toHalfWidthSymbol = (src) => {
+    const keys = Array.from(exports.symbolMapFullToHalf.keys()).join('|');
+    return src.replace(new RegExp(`(${keys})`, 'g'), (s) => exports.symbolMapFullToHalf.get(s) || '');
 };
 /**
  * Convert half-width symbol to full-width ones.
@@ -242,8 +241,10 @@ var toHalfWidthSymbol = function (src) {
  * @param src
  * @private
  */
-var toFullWidthSymbol = function (src) {
-    var keys = Array.from(exports.symbolMapHalfToFull.keys()).map(function (key) { return "\\".concat(key); }).join('|');
-    return src.replace(new RegExp("(".concat(keys, ")"), 'g'), function (s) { return exports.symbolMapHalfToFull.get(s) || ''; });
+const toFullWidthSymbol = (src) => {
+    const keys = Array.from(exports.symbolMapHalfToFull.keys())
+        .map((key) => `\\${key}`)
+        .join('|');
+    return src.replace(new RegExp(`(${keys})`, 'g'), (s) => exports.symbolMapHalfToFull.get(s) || '');
 };
 //# sourceMappingURL=japanese-width.js.map
